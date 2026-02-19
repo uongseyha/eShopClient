@@ -21,8 +21,8 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private usersService: UsersService, private router: Router) {
     this.loginForm = this.fb.group({
-      Email: ['', [Validators.required, Validators.email]],
-      Password: ['', Validators.required],
+      Email: ['', [Validators.required, Validators.email]], //test1@example.com
+      Password: ['', Validators.required], //password1
     });
   }
 
@@ -33,12 +33,12 @@ export class LoginComponent {
         next: (response: AuthenticationResponse) => {
           if (response.userID == "admin_id") {
             //admin user
-            this.usersService.setAuthStatus(response.token, true, response.personName);
+            this.usersService.setAuthStatus(response, response.token, true, response.personName);
             this.router.navigate(['admin', 'products']);
           }
           else {
             //normal user
-            this.usersService.setAuthStatus(response.token, false, response.personName);
+            this.usersService.setAuthStatus(response, response.token, false, response.personName);
             this.router.navigate(['products', 'showcase']);
           }
         },
